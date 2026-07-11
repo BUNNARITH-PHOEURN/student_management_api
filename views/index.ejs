@@ -1,11 +1,64 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<%- include('partials/header') %>
+
+        <h1><%= title %></h1>
+
+        <a href="/courses/new" class="btn btn-primary" style="text-decoration:none; display:inline-block; margin-bottom:20px;">+ Add Course</a>
+
+        <% if (courses && courses.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Course Name</th>
+                        <th>Course Code</th>
+                        <th>Credits</th>
+                        <th>Instructor</th>
+                        <th>Department</th>
+                        <th>Semester</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% courses.forEach(function(course) { %>
+                        <tr>
+                            <td><%= course.id %></td>
+                            <td><%= course.course_name %></td>
+                            <td><%= course.course_code %></td>
+                            <td><%= course.credits %></td>
+                            <td><%= course.instructor %></td>
+                            <td><%= course.department %></td>
+                            <td><%= course.semester %></td>
+                            <td><%= course.status %></td>
+                            <td>
+                                <a href="/courses/<%= course.id %>/edit" class="btn btn-secondary" style="text-decoration:none;">Edit</a>
+                                <button class="btn btn-danger delete-btn" data-id="<%= course.id %>">Delete</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No courses found. Add one to get started.</p>
+        <% } %>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var id = this.getAttribute('data-id');
+                if (confirm('Are you sure you want to delete this course?')) {
+                    fetch('/courses/' + id, { method: 'DELETE' })
+                        .then(function(res) {
+                            if (res.ok) {
+                                window.location.reload();
+                            } else {
+                                return res.json().then(function(data) { alert(data.error || 'Error deleting course.'); });
+                            }
+                        })
+                        .catch(function(err) { alert('Request failed: ' + err); });
+                }
+            });
+        });
+    </script>
+
+<%- include('partials/footer') %>

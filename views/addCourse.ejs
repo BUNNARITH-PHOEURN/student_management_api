@@ -1,0 +1,95 @@
+<%- include('partials/header') %>
+
+        <h1><%= title %></h1>
+
+        <form id="addForm" class="form-card">
+            <div class="form-group">
+                <label for="course_name">Course Name</label>
+                <input type="text" id="course_name" name="course_name" placeholder="e.g. Introduction to Programming" required>
+            </div>
+            <div class="form-group">
+                <label for="course_code">Course Code</label>
+                <input type="text" id="course_code" name="course_code" placeholder="e.g. CS101" required>
+            </div>
+            <div class="form-group">
+                <label for="credits">Credits</label>
+                <input type="number" id="credits" name="credits" placeholder="e.g. 3" min="0">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Course description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="instructor">Instructor</label>
+                <input type="text" id="instructor" name="instructor" placeholder="e.g. Dr. Smith">
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" placeholder="e.g. Computer Science">
+            </div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <input type="text" id="semester" name="semester" placeholder="e.g. Fall 2026">
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="submit" id="addButton" class="btn btn-primary">Add Course</button>
+                <button type="button" id="backButton" class="btn btn-secondary">Back</button>
+            </div>
+        </form>
+
+    <script>
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var courseName = document.getElementById('course_name').value.trim();
+            var courseCode = document.getElementById('course_code').value.trim();
+            var credits = document.getElementById('credits').value;
+            var description = document.getElementById('description').value.trim();
+            var instructor = document.getElementById('instructor').value.trim();
+            var department = document.getElementById('department').value.trim();
+            var semester = document.getElementById('semester').value.trim();
+            var status = document.getElementById('status').value;
+
+            if (!courseName || !courseCode) {
+                alert('Course Name and Course Code are required.');
+                return;
+            }
+
+            fetch('/courses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    course_name: courseName,
+                    course_code: courseCode,
+                    credits: parseInt(credits) || 0,
+                    description: description,
+                    instructor: instructor,
+                    department: department,
+                    semester: semester,
+                    status: status
+                })
+            })
+            .then(function(res) {
+                if (res.ok) {
+                    window.location.href = '/courses';
+                } else {
+                    return res.json().then(function(data) { alert(data.error || 'Error adding course.'); });
+                }
+            })
+            .catch(function(err) { alert('Request failed: ' + err); });
+        });
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = '/courses';
+        });
+    </script>
+
+<%- include('partials/footer') %>
