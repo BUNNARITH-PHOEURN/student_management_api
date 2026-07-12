@@ -9,7 +9,7 @@ var Student = {
     },
 
     create: function(data, callback) {
-        var query = 'INSERT INTO students (firstName, lastName, street, district, city, phoneNumber, dob,  gender, status) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)';
+        var query = 'INSERT INTO students (firstName, lastName, street, district, city, phoneNumber, email, dob,  gender, status) VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)';
         connection.query(query, [
             data.firstName || '',
             data.lastName || '',
@@ -17,6 +17,7 @@ var Student = {
             data.district || '',
             data.city || '',
             data.phoneNumber || '',
+            data.email || '',
             data.dob || null,
             data.gender|| '',
             data.status || 'active',
@@ -24,7 +25,7 @@ var Student = {
     },
 
     update: function(id, data, callback) {
-        var query = 'UPDATE students SET firstName = ?, lastName = ?, street = ?, district = ?, city = ?, phoneNumber = ?, dob = ?, gender = ?, status = ? WHERE id = ?';
+        var query = 'UPDATE students SET firstName = ?, lastName = ?, street = ?, district = ?, city = ?, phoneNumber = ?, email=?, dob = ?, gender = ?, status = ? WHERE id = ?';
         connection.query(query, [
             data.firstName || '',
             data.lastName || '',
@@ -32,6 +33,7 @@ var Student = {
             data.district || '',
             data.city || '',
             data.phoneNumber || '',
+            data.email || '',
             data.dob || null,
             data.gender || '',
             data.status|| 'active',

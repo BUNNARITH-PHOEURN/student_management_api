@@ -36,6 +36,10 @@
                 <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 012345678">
             </div>
             <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="e.g. sokha.chan@email.com">
+            </div>
+            <div class="form-group">
                 <label for="dob">Date of Birth</label>
                 <input type="date" id="dob" name="dob">
             </div>
@@ -63,6 +67,7 @@
             var district = document.getElementById('district').value.trim();
             var city = document.getElementById('city').value.trim();
             var phoneNumber = document.getElementById('phoneNumber').value.trim();
+            var email = document.getElementById('email').value.trim();
             var dob = document.getElementById('dob').value;
             var status = document.getElementById('status').value;
 
@@ -82,6 +87,7 @@
                     district: district,
                     city: city,
                     phoneNumber: phoneNumber,
+                    email: email,
                     dob: dob,
                     status: status
                 })

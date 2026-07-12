@@ -76,7 +76,7 @@ var courseController = {
                     }
                     var mappedStudents = enrolledStudents.map(function(s) {
                         return {
-                            id: s.Id,
+                            id: s.id,
                             name: s.firstName + ' ' + s.lastName,
                             phoneNumber: s.phoneNumber
                         };
@@ -85,7 +85,7 @@ var courseController = {
                         return !enrolledStudents.some(function(e) { return e.Id === s.Id; });
                     }).map(function(s) {
                         return {
-                            id: s.Id,
+                            id: s.id,
                             name: s.firstName + ' ' + s.lastName
                         };
                     });

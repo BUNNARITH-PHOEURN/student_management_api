@@ -12,6 +12,10 @@
                 <p><%= student.lastName %></p>
             </div>
             <div class="form-group">
+                <label>Email</label>
+                <p><%= student.email></p>
+            </div>
+            <div class="form-group">
                 <label>Gender</label>
                 <p><%= student.gender %></p>
             </div>
@@ -46,7 +50,7 @@
         </div>
 
     <script>
-        var studentId = '<%= student.Id %>';
+        var studentId = '<%= student.id %>';
 
         document.getElementById('editButton').addEventListener('click', function() {
             window.location.href = '/students/' + studentId + '/edit';
