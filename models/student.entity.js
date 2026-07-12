@@ -1,6 +1,6 @@
 class Student {
-  constructor(Id, firstName, lastName) {
-    this.Id = Id;
+  constructor(id, firstName, lastName) {
+    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.gender = '';
@@ -8,6 +8,7 @@ class Student {
     this.district = '';
     this.city = '';
     this.phoneNumber = '';
+    this.email = '';
     this.dob = null;
     this.status = 'active';
     this.created_at = null;

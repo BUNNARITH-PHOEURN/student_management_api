@@ -2,7 +2,7 @@ var connection = require('../config/db');
 
 var Enrollment = {
     findStudentsByCourse: function(courseId, callback) {
-        var query = 'SELECT s.Id, s.firstName, s.lastName, s.phoneNumber, s.gender, s.city, s.status FROM students s INNER JOIN enrollments e ON s.Id = e.student_id WHERE e.course_id = ?';
+        var query = 'SELECT s.id, s.firstName, s.lastName, s.email, s.phoneNumber, s.gender, s.city, s.status FROM students s INNER JOIN enrollments e ON s.id = e.student_id WHERE e.course_id = ?';
         connection.query(query, [courseId], callback);
     },
 

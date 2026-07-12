@@ -25,14 +25,15 @@ var studentController = {
                     items: results,
                     basePath: 'students',
                     entityLabel: 'Student',
-                    idField: 'Id',
+                    idField: 'id',
                     columns: [
-                        { label: 'ID', field: 'Id' },
+                        { label: 'ID', field: 'id' },
                         { label: 'First Name', field: 'firstName' },
                         { label: 'Last Name', field: 'lastName' },
                         { label: 'Gender', field: 'gender' },
                         { label: 'City', field: 'city' },
                         { label: 'Phone Number', field: 'phoneNumber' },
+                        { label: 'Email', field: 'email' },
                         { label: 'Date of Birth', field: 'dob' },
                         { label: 'Status', field: 'status' }
                     ]
@@ -96,6 +97,7 @@ var studentController = {
         var district = req.body.district;
         var city = req.body.city;
         var phoneNumber = req.body.phoneNumber;
+        var email = req.body.email;
         var dob = req.body.dob;
         var status = req.body.status;
 
@@ -111,6 +113,7 @@ var studentController = {
             district: district,
             city: city,
             phoneNumber: phoneNumber,
+            email: email,
             dob: dob,
             status:status
         }, function(err, result) {
@@ -128,6 +131,7 @@ var studentController = {
                     district: district || '',
                     city: city || '',
                     phoneNumber: phoneNumber || '',
+                    email: email || '',
                     dob: dob || null,
                     status: status || 'active',
                     created_at: new Date(),
@@ -145,6 +149,7 @@ var studentController = {
         var district = req.body.district;
         var city = req.body.city;
         var phoneNumber = req.body.phoneNumber;
+        var email = req.body.email;
         var dob = req.body.dob;
         var status = req.body.status;
 
@@ -160,6 +165,7 @@ var studentController = {
             district: district,
             city: city,
             phoneNumber: phoneNumber,
+            email: email,
             dob: dob,
             status: status
         }, function(err, result) {
