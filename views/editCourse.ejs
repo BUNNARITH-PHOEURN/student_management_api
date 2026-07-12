@@ -50,17 +50,27 @@
             <div class="student-list-card">
                 <div class="student-list-header">
                     <h3>Enrolled Students</h3>
+                </div>
+                <div class="enroll-form">
+                    <select id="enrollStudentSelect" class="form-control">
+                        <option value="">-- Select Student --</option>
+                        <% if (availableStudents && availableStudents.length > 0) { %>
+                            <% availableStudents.forEach(function(student) { %>
+                                <option value="<%= student.id %>"><%= student.name %></option>
+                            <% }); %>
+                        <% } %>
+                    </select>
                     <button type="button" id="enrollBtn" class="btn btn-primary btn-sm">+ Enroll</button>
                 </div>
                 <% if (students && students.length > 0) { %>
                     <ul class="student-list">
                         <% students.forEach(function(student) { %>
                             <li class="student-item">
-                                <!-- <a href="/students/<%= student.id %>"> -->
-                                <a href="#<%= student.student_id %>">
+                                <a href="/students/<%= student.id %>">
                                     <span class="student-name"><%= student.name %></span>
                                 </a>
-                                <span class="student-id"><%= student.student_id %></span>
+                                <span class="student-id"><%= student.phoneNumber %></span>
+                                <button class="btn btn-danger btn-sm unenroll-btn" data-student-id="<%= student.id %>">Remove</button>
                             </li>
                         <% }); %>
                     </ul>
@@ -115,6 +125,47 @@
 
         document.getElementById('backButton').addEventListener('click', function() {
             window.location.href = '/courses';
+        });
+
+        var courseId = document.getElementById('courseId').value;
+
+        document.getElementById('enrollBtn').addEventListener('click', function() {
+            var studentId = document.getElementById('enrollStudentSelect').value;
+            if (!studentId) {
+                alert('Please select a student to enroll.');
+                return;
+            }
+            fetch('/courses/' + courseId + '/enroll', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ student_id: studentId })
+            })
+            .then(function(res) {
+                if (res.ok) {
+                    window.location.reload();
+                } else {
+                    return res.json().then(function(data) { alert(data.error || 'Error enrolling student.'); });
+                }
+            })
+            .catch(function(err) { alert('Request failed: ' + err); });
+        });
+
+        document.querySelectorAll('.unenroll-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var studentId = this.getAttribute('data-student-id');
+                if (!confirm('Are you sure you want to unenroll this student?')) return;
+                fetch('/courses/' + courseId + '/unenroll/' + studentId, {
+                    method: 'DELETE'
+                })
+                .then(function(res) {
+                    if (res.ok) {
+                        window.location.reload();
+                    } else {
+                        return res.json().then(function(data) { alert(data.error || 'Error unenrolling student.'); });
+                    }
+                })
+                .catch(function(err) { alert('Request failed: ' + err); });
+            });
         });
     </script>
 

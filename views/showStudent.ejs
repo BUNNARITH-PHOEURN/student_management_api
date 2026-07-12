@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+
+        <h1><%= title %></h1>
+
+        <div class="form-card">
+            <div class="form-group">
+                <label>First Name</label>
+                <p><%= student.firstName %></p>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <p><%= student.lastName %></p>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <p><%= student.gender %></p>
+            </div>
+            <div class="form-group">
+                <label>Street</label>
+                <p><%= student.street %></p>
+            </div>
+            <div class="form-group">
+                <label>District</label>
+                <p><%= student.district %></p>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <p><%= student.city %></p>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <p><%= student.phoneNumber %></p>
+            </div>
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <p><%= student.dob %></p>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <p><%= student.status %></p>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="editButton" class="btn btn-primary">Edit Student</button>
+                <button type="button" id="backButton" class="btn btn-secondary">Back</button>
+            </div>
+        </div>
+
+    <script>
+        var studentId = '<%= student.Id %>';
+
+        document.getElementById('editButton').addEventListener('click', function() {
+            window.location.href = '/students/' + studentId + '/edit';
+        });
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+
+<%- include('partials/footer') %>
