@@ -37,7 +37,15 @@ var courseController = {
             if (results.length === 0) {
                 return res.status(404).send('Course not found');
             }
-            res.render('editCourse', { title: 'Edit Course', course: results[0] });
+            res.render('editCourse', {
+                title: 'Edit Course',
+                course: results[0],
+                students: [
+                    { name: 'Vimean', student_id: 'STU-001' },
+                    { name: 'Nith', student_id: 'STU-002' },
+                    { name: 'TaTe', student_id: 'STU-003' }
+                ]
+            });
         });
     },
 

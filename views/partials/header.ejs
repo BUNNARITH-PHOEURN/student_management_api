@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title><%= title %></title>
+    <title><%= typeof title !== 'undefined' ? title : 'Error' %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -15,4 +15,4 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container<%= typeof wide !== 'undefined' && wide ? ' container-wide' : '' %>">
