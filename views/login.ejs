@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Management — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/stylesheets/auth.css">
+  </head>
+  <body>
+    <main class="auth-page" aria-labelledby="auth-title">
+      <section class="auth-left">
+        <div class="illustration" aria-hidden="true">
+          <!-- Simple SVG illustration -->
+          <svg width="320" height="320" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg" class="student-illus">
+            <rect x="0" y="0" width="640" height="640" rx="32" fill="url(#g)" />
+            <g opacity="0.95" fill="#fff">
+              <circle cx="200" cy="200" r="72" />
+              <rect x="120" y="300" width="160" height="160" rx="20" />
+              <rect x="320" y="120" width="220" height="280" rx="20" />
+            </g>
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2563EB"/>
+                <stop offset="1" stop-color="#60A5FA"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 id="auth-title">Student Management System</h1>
+        <p class="subtitle">Manage students, courses, and enrollments easily.</p>
+        <ul class="features" aria-hidden="false">
+          <li>✔ Secure Login</li>
+          <li>✔ Student Records</li>
+          <li>✔ Course Management</li>
+          <li>✔ Fast & Simple</li>
+        </ul>
+      </section>
+
+      <section class="auth-right" aria-live="polite">
+        <div class="card" id="auth-card">
+          <div class="card-header">
+            <h2 class="card-title">Welcome Back</h2>
+            <p class="card-sub">Access your student dashboard</p>
+          </div>
+
+          <div class="alerts" id="alerts" role="status" aria-atomic="true"></div>
+
+          <div class="form-wrap">
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" novalidate>
+              <div class="field">
+                <label for="login-email">Email</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-envelope"></i>
+                  <input id="login-email" name="email" type="email" autocomplete="email" required aria-required="true" aria-label="Email" />
+                </div>
+                <div class="error" data-for="login-email" aria-live="polite"></div>
+              </div>
+
+              <div class="field">
+                <label for="login-password">Password</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-lock"></i>
+                  <input id="login-password" name="password" type="password" autocomplete="current-password" required aria-required="true" aria-label="Password" />
+                  <button type="button" class="icon-btn" id="login-toggle" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="error" data-for="login-password" aria-live="polite"></div>
+              </div>
+
+              <div class="row between">
+                <label class="checkbox">
+                  <input type="checkbox" id="remember" name="remember" /> Remember me
+                </label>
+                <a href="#" id="forgot-link">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="btn primary" id="login-submit">Login</button>
+
+              <div class="divider"><span>OR</span></div>
+
+              <p class="muted">Don't have an account? <a href="#" id="to-register">Register</a></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden" novalidate>
+              <div class="field">
+                <label for="reg-name">Student Name</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-user-graduate"></i>
+                  <input id="reg-name" name="student_name" type="text" autocomplete="name" required aria-required="true" aria-label="Student Name" />
+                </div>
+                <div class="error" data-for="reg-name" aria-live="polite"></div>
+              </div>
+
+              <div class="field">
+                <label for="reg-email">Email</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-envelope"></i>
+                  <input id="reg-email" name="email" type="email" autocomplete="email" required aria-required="true" aria-label="Email" />
+                </div>
+                <div class="error" data-for="reg-email" aria-live="polite"></div>
+              </div>
+
+              <div class="field">
+                <label for="reg-password">Password</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-lock"></i>
+                  <input id="reg-password" name="password" type="password" autocomplete="new-password" required aria-required="true" aria-label="Password" />
+                  <button type="button" class="icon-btn" id="reg-toggle" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="error" data-for="reg-password" aria-live="polite"></div>
+              </div>
+
+              <div class="field">
+                <label for="reg-confirm">Confirm Password</label>
+                <div class="input-group">
+                  <i class="fa-solid fa-lock"></i>
+                  <input id="reg-confirm" name="confirm_password" type="password" autocomplete="new-password" required aria-required="true" aria-label="Confirm Password" />
+                </div>
+                <div class="error" data-for="reg-confirm" aria-live="polite"></div>
+              </div>
+
+              <button type="submit" class="btn primary" id="reg-submit">Register</button>
+
+              <p class="muted">Already have an account? <a href="#" id="to-login">Login</a></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/javascripts/auth.js" defer></script>
+  </body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+<script>
+
+document
+.getElementById("loginForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/auth/login",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            email,
+            password
+        })
+
+    });
+
+    const data = await response.json();
+
+    if(response.ok){
+
+        alert("Login Success");
+
+        localStorage.setItem("token",data.token);
+
+        window.location="/courses";
+
+    }else{
+
+        alert(data.message);
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
