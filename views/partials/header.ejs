@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title><%= title %></title>
+    <title><%= typeof title !== 'undefined' ? title : 'Student Management' %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -12,7 +12,15 @@
             <a href="/courses" class="nav-brand">Student Management</a>
             <div class="nav-links">
                 <a href="/courses">Courses</a>
+                <a href="/students">Students</a>
+            </div>
+
+            <div class="nav-actions">
+                <button id="btn-new-course" class="btn btn-primary small" aria-label="Add new course">+ New Course</button>
+                <a href="/login" id="btn-login" class="btn btn-ghost small" style="display:none">Login</a>
+                <button id="btn-logout" class="btn btn-ghost small" style="display:none">Logout</button>
             </div>
         </div>
     </nav>
     <div class="container">
+    <script src="/javascripts/header.js" defer></script>

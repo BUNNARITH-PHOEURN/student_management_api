@@ -1,0 +1,104 @@
+<%- include('partials/header') %>
+
+        <h1><%= title %></h1>
+
+        <form id="addForm" class="form-card">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="e.g. Sokha" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="e.g. Chan" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input type="text" id="street" name="street" placeholder="e.g. 123 Monivong Blvd">
+            </div>
+            <div class="form-group">
+                <label for="district">District</label>
+                <input type="text" id="district" name="district" placeholder="e.g. Chamkarmon">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="e.g. Phnom Penh">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 012345678">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob">
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="submit" id="addButton" class="btn btn-primary">Add Student</button>
+                <button type="button" id="backButton" class="btn btn-secondary">Back</button>
+            </div>
+        </form>
+
+    <script>
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var firstName = document.getElementById('firstName').value.trim();
+            var lastName = document.getElementById('lastName').value.trim();
+            var gender = document.getElementById('gender').value;
+            var street = document.getElementById('street').value.trim();
+            var district = document.getElementById('district').value.trim();
+            var city = document.getElementById('city').value.trim();
+            var phoneNumber = document.getElementById('phoneNumber').value.trim();
+            var dob = document.getElementById('dob').value;
+            var status = document.getElementById('status').value;
+
+            if (!firstName || !lastName) {
+                alert('First Name and Last Name are required.');
+                return;
+            }
+
+            fetch('/students', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    gender: gender,
+                    street: street,
+                    district: district,
+                    city: city,
+                    phoneNumber: phoneNumber,
+                    dob: dob,
+                    status: status
+                })
+            })
+            .then(function(res) {
+                if (res.ok) {
+                    window.location.href = '/students';
+                } else {
+                    return res.json().then(function(data) { alert(data.error || 'Error adding student.'); });
+                }
+            })
+            .catch(function(err) { alert('Request failed: ' + err); });
+        });
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = '/students';
+        });
+    </script>
+
+<%- include('partials/footer') %>
