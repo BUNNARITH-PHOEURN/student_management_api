@@ -5,5 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.redirect('/courses');
 });
+router.get('/', function(req, res, next) {
+  res.redirect('/students');
+});
 
 module.exports = router;

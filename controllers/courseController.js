@@ -1,17 +1,44 @@
 var Course = require('../models/course');
 
 var courseController = {
+
     list: function(req, res) {
         Course.findAll(function(err, results) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
+            if (err) return res.status(500).json({ error: err.message });
             if (req.accepts('html') && !req.query.json) {
-                return res.render('index', { title: 'Courses', courses: results });
+                return res.render('index', {
+                    title: 'Courses',
+                    items: results,
+                    basePath: 'courses',
+                    entityLabel: 'Course',
+                    idField: 'id',
+                    columns: [
+                        { label: 'ID', field: 'id' },
+                        { label: 'Course Name', field: 'course_name' },
+                        { label: 'Course Code', field: 'course_code' },
+                        { label: 'Credits', field: 'credits' },
+                        { label: 'Instructor', field: 'instructor' },
+                        { label: 'Department', field: 'department' },
+                        { label: 'Semester', field: 'semester' },
+                        { label: 'Status', field: 'status' }
+                    ]
+                });
             }
             res.json(results);
         });
     },
+
+    // list: function(req, res) {
+    //     Course.findAll(function(err, results) {
+    //         if (err) {
+    //             return res.status(500).json({ error: err.message });
+    //         }
+    //         if (req.accepts('html') && !req.query.json) {
+    //             return res.render('index', { title: 'Courses', courses: results });
+    //         }
+    //         res.json(results);
+    //     });
+    // },
 
     newForm: function(req, res) {
         res.render('addCourse', { title: 'Add Course' });
