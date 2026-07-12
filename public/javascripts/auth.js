@@ -115,7 +115,7 @@
     if(!validateRegister()) return;
 
     const data = {
-      student_name: $('#reg-name').value.trim(),
+      name: $('#reg-name').value.trim(),
       email: $('#reg-email').value.trim(),
       password: $('#reg-password').value
     };

@@ -8,17 +8,21 @@
 
 <body>
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="/courses" class="nav-brand">Student Management</a>
-            <div class="nav-links">
-                <a href="/courses">Courses</a>
-                <a href="/students">Students</a>
+        <div class="nav-inner">
+            <div class="nav-left">
+                <a href="/courses" class="nav-brand">Student Management</a>
             </div>
 
-            <div class="nav-actions">
-                <button id="btn-new-course" class="btn btn-primary small" aria-label="Add new course">+ New Course</button>
+            <div class="nav-center">
+                <a href="/courses" class="nav-link">Courses</a>
+                <a href="/students" class="nav-link">Students</a>
+                <a href="/teachers" class="nav-link">Teachers</a>
+            </div>
+
+            <div class="nav-right">
                 <a href="/login" id="btn-login" class="btn btn-ghost small" style="display:none">Login</a>
                 <button id="btn-logout" class="btn btn-ghost small" style="display:none">Logout</button>
+                <div class="avatar" title="Profile">SM</div>
             </div>
         </div>
     </nav>

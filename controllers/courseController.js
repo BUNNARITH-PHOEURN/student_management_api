@@ -1,4 +1,6 @@
 var Course = require('../models/course');
+var Student = require('../models/student');
+var Enrollment = require('../models/enrollment');
 
 var courseController = {
 
@@ -64,7 +66,37 @@ var courseController = {
             if (results.length === 0) {
                 return res.status(404).send('Course not found');
             }
-            res.render('editCourse', { title: 'Edit Course', course: results[0] });
+            Enrollment.findStudentsByCourse(req.params.id, function(err, enrolledStudents) {
+                if (err) {
+                    return res.status(500).send(err.message);
+                }
+                Student.findAll(function(err, allStudents) {
+                    if (err) {
+                        return res.status(500).send(err.message);
+                    }
+                    var mappedStudents = enrolledStudents.map(function(s) {
+                        return {
+                            id: s.Id,
+                            name: s.firstName + ' ' + s.lastName,
+                            phoneNumber: s.phoneNumber
+                        };
+                    });
+                    var availableStudents = allStudents.filter(function(s) {
+                        return !enrolledStudents.some(function(e) { return e.Id === s.Id; });
+                    }).map(function(s) {
+                        return {
+                            id: s.Id,
+                            name: s.firstName + ' ' + s.lastName
+                        };
+                    });
+                    res.render('editCourse', {
+                        title: 'Edit Course',
+                        course: results[0],
+                        students: mappedStudents,
+                        availableStudents: availableStudents
+                    });
+                });
+            });
         });
     },
 
@@ -157,6 +189,45 @@ var courseController = {
                 return res.status(404).json({ error: 'Course not found' });
             }
             res.json({ message: 'Course deleted successfully' });
+        });
+    },
+
+    enroll: function(req, res) {
+        var courseId = req.params.id;
+        var studentId = req.body.student_id;
+
+        if (!studentId) {
+            return res.status(400).json({ error: 'student_id is required' });
+        }
+
+        Enrollment.isEnrolled(studentId, courseId, function(err, results) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            if (results.length > 0) {
+                return res.status(400).json({ error: 'Student is already enrolled in this course' });
+            }
+            Enrollment.enroll(studentId, courseId, function(err, result) {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                res.json({ message: 'Student enrolled successfully' });
+            });
+        });
+    },
+
+    unenroll: function(req, res) {
+        var courseId = req.params.id;
+        var studentId = req.params.studentId;
+
+        Enrollment.unenroll(studentId, courseId, function(err, result) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Enrollment not found' });
+            }
+            res.json({ message: 'Student unenrolled successfully' });
         });
     }
 };

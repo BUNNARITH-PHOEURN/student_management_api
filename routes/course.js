@@ -10,16 +10,7 @@ router.post('/', courseController.create);
 router.put('/:id', courseController.update);
 router.delete('/:id', courseController.delete); 
 
-// POST /students/:id/enroll - Enroll a student in a course (PENDING - waiting for student team)
-// router.post('/students/:id/enroll', function(req, res, next) {
-//     var studentId = req.params.id;
-//     var course_id = req.body.course_id;
-//
-//     if (!course_id) {
-//         return res.status(400).json({ error: 'course_id is required' });
-//     }
-//
-//     // TODO: Implement after student module is ready
-// });
+router.post('/:id/enroll', courseController.enroll);
+router.delete('/:id/unenroll/:studentId', courseController.unenroll);
 
 module.exports = router;

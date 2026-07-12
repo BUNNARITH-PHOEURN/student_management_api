@@ -8,20 +8,20 @@ exports.register = async (req, res) => {
     try {
 
         const {
-            student_name,
+            name,
             email,
             password
         } = req.body;
 
 
         // Check existing email
-        const [existingStudent] = await db.promise().query(
-            "SELECT * FROM students WHERE email = ?",
+        const [existingTeacher] = await db.promise().query(
+            "SELECT * FROM teachers WHERE email = ?",
             [email]
         );
 
 
-        if(existingStudent.length > 0){
+        if(existingTeacher.length > 0){
             return res.status(400).json({
                 message:"Email already exists"
             });
@@ -34,12 +34,12 @@ exports.register = async (req, res) => {
 
         await db.promise().query(
             `
-            INSERT INTO students
-            (student_name,email,password)
+            INSERT INTO teachers
+            (name,email,password)
             VALUES (?,?,?)
             `,
             [
-                student_name,
+                name,
                 email,
                 hashPassword
             ]
@@ -73,63 +73,49 @@ exports.login = async(req,res)=>{
         } = req.body;
 
 
-        const [students] = await db.promise().query(
-            "SELECT * FROM students WHERE email=?",
+        const [teachers] = await db.promise().query(
+            "SELECT * FROM teachers WHERE email = ?",
             [email]
         );
 
-
-        if(students.length === 0){
-
+        if (teachers.length === 0) {
             return res.status(401).json({
-                message:"Email or password incorrect"
+                message: "Email or password incorrect"
             });
-
         }
 
-
-        const student = students[0];
-
+        const teacher = teachers[0];
 
         const checkPassword = await bcrypt.compare(
             password,
-            student.password
+            teacher.password
         );
 
-
-        if(!checkPassword){
-
+        if (!checkPassword) {
             return res.status(401).json({
-                message:"Email or password incorrect"
+                message: "Email or password incorrect"
             });
-
         }
-
 
         const token = jwt.sign(
             {
-                id:student.id,
-                email:student.email
+                id: teacher.id,
+                email: teacher.email
             },
-            "student_secret",
+            "teacher_secret",
             {
-                expiresIn:"1d"
+                expiresIn: "1d"
             }
         );
 
-
         res.json({
-
-            message:"Login successfully",
-
-            token:token,
-
-            student:{
-                id:student.id,
-                name:student.student_name,
-                email:student.email
+            message: "Login successfully",
+            token: token,
+            user: {
+                id: teacher.id,
+                name: teacher.name,
+                email: teacher.email
             }
-
         });
 
 

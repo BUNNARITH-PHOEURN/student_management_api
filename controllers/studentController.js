@@ -64,6 +64,13 @@ var studentController = {
             if (results.length === 0) {
                 return res.status(404).json({ error: 'Student not found' });
             }
+            if (req.accepts('html') && !req.query.json) {
+                var student = results[0];
+                if (student.dob) {
+                    student.dob = new Date(student.dob).toISOString().split('T')[0];
+                }
+                return res.render('showStudent', { title: 'Student Details', student: student });
+            }
             res.json(results[0]);
         });
     },

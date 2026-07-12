@@ -24,7 +24,7 @@ var Student = {
     },
 
     update: function(id, data, callback) {
-        var query = 'UPDATE students SET firstName = ?, lastName = ?, street = ?, district = ?, city = ?, phoneNumber = ?, dob = ?, gender = ?, status = ?, WHERE id = ?';
+        var query = 'UPDATE students SET firstName = ?, lastName = ?, street = ?, district = ?, city = ?, phoneNumber = ?, dob = ?, gender = ?, status = ? WHERE id = ?';
         connection.query(query, [
             data.firstName || '',
             data.lastName || '',
