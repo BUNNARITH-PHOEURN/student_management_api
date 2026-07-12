@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title><%= title %></title>
+    <title><%= typeof title !== 'undefined' ? title : 'Student Management' %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -12,6 +12,9 @@
             <a href="/courses" class="nav-brand">Student Management</a>
             <div class="nav-links">
                 <a href="/courses">Courses</a>
+            </div>
+            <div class="nav-links">
+                <a href="/students">Students</a>
             </div>
         </div>
     </nav>
