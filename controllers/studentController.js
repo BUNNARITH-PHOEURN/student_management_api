@@ -42,21 +42,13 @@ var studentController = {
             res.json(results);
         });
     },
-    // list: function(req, res) {
-    //     Student.findAll(function(err, results) {
-    //         if (err) {
-    //             return res.status(500).json({ error: err.message });
-    //         }
-    //         if (req.accepts('html') && !req.query.json) {
-    //             return res.render('index', { title: 'Students', students: results });
-    //         }
-    //         res.json(results);
-    //     });
-    // },
-    
+   
+    // New form of students
     newForm: function(req, res) {
         res.render('addStudent', { title: 'Add Student' });
     },
+
+    // Controller action that handles a request to get one specific student by ID
     show: function(req, res) {
         Student.findById(req.params.id, function(err, results) {
             if (err) {
@@ -76,6 +68,7 @@ var studentController = {
         });
     },
 
+    //Form for edit student 
     editForm: function(req, res) {
         Student.findById(req.params.id, function(err, results) {
             if (err) return res.status(500).send(err.message);
@@ -89,6 +82,7 @@ var studentController = {
         });
     },
 
+    //Create new stucent recode
     create: function(req, res) {
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
@@ -141,6 +135,7 @@ var studentController = {
         });
     },
 
+    //Update student recodd
     update: function(req, res) {
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
@@ -179,6 +174,7 @@ var studentController = {
         });
     },
 
+    //Delete Student recode
     delete: function(req, res) {
         Student.delete(req.params.id, function(err, result) {
             if (err) {
