@@ -6,90 +6,56 @@ const db = require("../config/db");
 // Register API
 exports.register = async (req, res) => {
     try {
+        const { name, email, password } = req.body;
 
-        const {
-            name,
-            email,
-            password
-        } = req.body;
-
-
-        // Check existing email
-        const [existingTeacher] = await db.promise().query(
-            "SELECT * FROM teachers WHERE email = ?",
+        const [existingUser] = await db.promise().query(
+            "SELECT * FROM users WHERE email = ?",
             [email]
         );
 
-
-        if(existingTeacher.length > 0){
+        if (existingUser.length > 0) {
             return res.status(400).json({
-                message:"Email already exists"
+                message: "Email already exists"
             });
         }
 
-
-        // Encrypt password
-        const hashPassword = await bcrypt.hash(password,10);
-
+        const hashPassword = await bcrypt.hash(password, 10);
 
         await db.promise().query(
-            `
-            INSERT INTO teachers
-            (name,email,password)
-            VALUES (?,?,?)
-            `,
-            [
-                name,
-                email,
-                hashPassword
-            ]
+            "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+            [name, email, hashPassword]
         );
 
-
         res.status(201).json({
-            message:"Register successfully"
+            message: "Register successfully"
         });
-
-
-    } catch(error){
-
+    } catch (error) {
         res.status(500).json({
-            error:error.message
+            error: error.message
         });
-
     }
 };
 
 
 
 // Login API
-exports.login = async(req,res)=>{
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-    try{
-
-        const {
-            email,
-            password
-        } = req.body;
-
-
-        const [teachers] = await db.promise().query(
-            "SELECT * FROM teachers WHERE email = ?",
+        const [users] = await db.promise().query(
+            "SELECT * FROM users WHERE email = ?",
             [email]
         );
 
-        if (teachers.length === 0) {
+        if (users.length === 0) {
             return res.status(401).json({
                 message: "Email or password incorrect"
             });
         }
 
-        const teacher = teachers[0];
-
-        const checkPassword = await bcrypt.compare(
-            password,
-            teacher.password
-        );
+        const user = users[0];
+        const checkPassword = await bcrypt.compare(password, user.password);
 
         if (!checkPassword) {
             return res.status(401).json({
@@ -99,10 +65,10 @@ exports.login = async(req,res)=>{
 
         const token = jwt.sign(
             {
-                id: teacher.id,
-                email: teacher.email
+                id: user.id,
+                email: user.email
             },
-            "teacher_secret",
+            "user_secret",
             {
                 expiresIn: "1d"
             }
@@ -112,19 +78,14 @@ exports.login = async(req,res)=>{
             message: "Login successfully",
             token: token,
             user: {
-                id: teacher.id,
-                name: teacher.name,
-                email: teacher.email
+                id: user.id,
+                name: user.name,
+                email: user.email
             }
         });
-
-
-    }catch(error){
-
+    } catch (error) {
         res.status(500).json({
-            error:error.message
+            error: error.message
         });
-
     }
-
 };

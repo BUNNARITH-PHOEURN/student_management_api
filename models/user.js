@@ -1,16 +1,16 @@
 var connection = require('../config/db');
 
-var Teacher = {
+var User = {
     findAll: function(callback) {
-        connection.query('SELECT id, name, email FROM teachers', callback);
+        connection.query('SELECT id, name, email FROM users', callback);
     },
 
     findById: function(id, callback) {
-        connection.query('SELECT id, name, email FROM teachers WHERE id = ?', [id], callback);
+        connection.query('SELECT id, name, email FROM users WHERE id = ?', [id], callback);
     },
 
     create: function(data, callback) {
-        var query = 'INSERT INTO teachers (name, email, password) VALUES (?, ?, ?)';
+        var query = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
         connection.query(query, [
             data.name || '',
             data.email || '',
@@ -19,7 +19,7 @@ var Teacher = {
     },
 
     update: function(id, data, callback) {
-        var query = 'UPDATE teachers SET name = ?, email = ?, password = ? WHERE id = ?';
+        var query = 'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?';
         connection.query(query, [
             data.name || '',
             data.email || '',
@@ -29,8 +29,8 @@ var Teacher = {
     },
 
     delete: function(id, callback) {
-        connection.query('DELETE FROM teachers WHERE id = ?', [id], callback);
+        connection.query('DELETE FROM users WHERE id = ?', [id], callback);
     }
 };
 
-module.exports = Teacher;
+module.exports = User;
