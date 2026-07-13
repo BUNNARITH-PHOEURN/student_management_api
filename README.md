@@ -85,7 +85,7 @@ STUDENT_MANAGEMENT_API/
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/BUNNARITH-PHOEURN/student_management_api.git
    cd student_management_api
    ```
 

@@ -10,6 +10,7 @@ var courseRouter = require('./routes/course');
 var authRoutes = require("./routes/authRoutes");
 var authViewRoutes = require("./routes/authViewRoutes");
 
+
 var studentRouter = require('./routes/student');
 
 var app = express();
