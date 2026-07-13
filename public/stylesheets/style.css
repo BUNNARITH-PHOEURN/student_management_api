@@ -1071,14 +1071,11 @@ tbody tr:last-child td {
     color: var(--sidebar-fg);
     display: flex;
     flex-direction: column;
-
     position: fixed;
     top: 0;
     left: 0;
-
     width: var(--sidebar-w);
     height: 100vh;
-
     overflow: hidden;
     border-right: 1px solid var(--sidebar-border);
     z-index: 1000;
@@ -1235,6 +1232,87 @@ tbody tr:last-child td {
     justify-content: center;
 }
 
+/* =========================
+   Responsive Sidebar
+========================= */
+
+/* Tablet and Mobile */
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: var(--sidebar-w);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    /* Show sidebar when opened */
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    /* Disable collapsed mode on mobile */
+    .sidebar.collapsed {
+        width: var(--sidebar-w);
+    }
+
+    .sidebar.collapsed .link-text,
+    .sidebar.collapsed .brand-text {
+        display: block;
+    }
+
+    .sidebar.collapsed .nav-link,
+    .sidebar.collapsed .sidebar-profile {
+        justify-content: flex-start;
+    }
+
+    .sidebar.collapsed .sidebar-top {
+        justify-content: space-between;
+    }
+
+    /* Overlay background */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 999;
+        display: none;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+
+/* Small phones */
+@media (max-width: 480px) {
+
+    .sidebar {
+        width: 85%;
+        max-width: 280px;
+    }
+
+    .sidebar-top {
+        padding: 16px 12px;
+    }
+
+    .sidebar-nav {
+        padding: 12px 8px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .sidebar-profile {
+        padding: 10px;
+    }
+
+}
 
 .container {
     margin-left: var(--sidebar-w);
