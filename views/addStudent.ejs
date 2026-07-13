@@ -1,16 +1,23 @@
 <%- include('partials/header') %>
 
-        <h1><%= title %></h1>
+    <h1>
+        <%= title %>
+    </h1>
 
-        <form id="addForm" class="form-card">
+    <form id="addForm" class="form-card">
+
+        <div class="form-grid">
+
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName" placeholder="e.g. Sokha" required>
             </div>
+
             <div class="form-group">
                 <label for="lastName">Last Name</label>
                 <input type="text" id="lastName" name="lastName" placeholder="e.g. Chan" required>
             </div>
+
             <div class="form-group">
                 <label for="gender">Gender</label>
                 <select id="gender" name="gender">
@@ -19,30 +26,37 @@
                     <option value="other">Other</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="street">Street</label>
-                <input type="text" id="street" name="street" placeholder="e.g. 123 Monivong Blvd">
-            </div>
-            <div class="form-group">
-                <label for="district">District</label>
-                <input type="text" id="district" name="district" placeholder="e.g. Chamkarmon">
-            </div>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" placeholder="e.g. Phnom Penh">
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 012345678">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="e.g. sokha.chan@email.com">
-            </div>
+
             <div class="form-group">
                 <label for="dob">Date of Birth</label>
                 <input type="date" id="dob" name="dob">
             </div>
+
+            <div class="form-group full-width">
+                <label for="street">Street</label>
+                <input type="text" id="street" name="street" placeholder="e.g. 123 Monivong Blvd">
+            </div>
+
+            <div class="form-group">
+                <label for="district">District</label>
+                <input type="text" id="district" name="district" placeholder="e.g. Chamkarmon">
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="e.g. Phnom Penh">
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 012345678">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="e.g. sokha.chan@email.com">
+            </div>
+
             <div class="form-group">
                 <label for="status">Status</label>
                 <select id="status" name="status">
@@ -50,14 +64,23 @@
                     <option value="inactive">Inactive</option>
                 </select>
             </div>
-            <div class="form-actions">
-                <button type="submit" id="addButton" class="btn btn-primary">Add Student</button>
-                <button type="button" id="backButton" class="btn btn-secondary">Back</button>
-            </div>
-        </form>
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" id="addButton" class="btn btn-primary">
+                Add Student
+            </button>
+
+            <button type="button" id="backButton" class="btn btn-secondary">
+                Back
+            </button>
+        </div>
+
+    </form>
 
     <script>
-        document.getElementById('addForm').addEventListener('submit', function(e) {
+        document.getElementById('addForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             var firstName = document.getElementById('firstName').value.trim();
@@ -92,19 +115,19 @@
                     status: status
                 })
             })
-            .then(function(res) {
-                if (res.ok) {
-                    window.location.href = '/students';
-                } else {
-                    return res.json().then(function(data) { alert(data.error || 'Error adding student.'); });
-                }
-            })
-            .catch(function(err) { alert('Request failed: ' + err); });
+                .then(function (res) {
+                    if (res.ok) {
+                        window.location.href = '/students';
+                    } else {
+                        return res.json().then(function (data) { alert(data.error || 'Error adding student.'); });
+                    }
+                })
+                .catch(function (err) { alert('Request failed: ' + err); });
         });
 
-        document.getElementById('backButton').addEventListener('click', function() {
+        document.getElementById('backButton').addEventListener('click', function () {
             window.location.href = '/students';
         });
     </script>
 
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>

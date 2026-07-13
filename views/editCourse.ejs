@@ -1,87 +1,114 @@
 <%- include('partials/header', { wide: true }) %>
 
-        <h1><%= title %></h1>
+    <h1>
+        <%= title %>
+    </h1>
 
-        <div class="edit-layout">
-            <form id="editForm" class="form-card">
-                <input type="hidden" id="courseId" value="<%= course.id %>">
+    <div class="edit-layout">
+        <form id="editForm" class="form-card">
+            <input type="hidden" id="courseId" value="<%= course.id %>">
+
+            <div class="form-grid">
+
                 <div class="form-group">
                     <label for="course_name">Course Name</label>
                     <input type="text" id="course_name" name="course_name" value="<%= course.course_name %>" required>
                 </div>
+
                 <div class="form-group">
                     <label for="course_code">Course Code</label>
                     <input type="text" id="course_code" name="course_code" value="<%= course.course_code %>" required>
                 </div>
+
                 <div class="form-group">
                     <label for="credits">Credits</label>
                     <input type="number" id="credits" name="credits" value="<%= course.credits %>" min="0">
                 </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="3"><%= course.description %></textarea>
-                </div>
+
                 <div class="form-group">
                     <label for="instructor">Instructor</label>
                     <input type="text" id="instructor" name="instructor" value="<%= course.instructor %>">
                 </div>
+
                 <div class="form-group">
                     <label for="department">Department</label>
                     <input type="text" id="department" name="department" value="<%= course.department %>">
                 </div>
+
                 <div class="form-group">
                     <label for="semester">Semester</label>
                     <input type="text" id="semester" name="semester" value="<%= course.semester %>">
                 </div>
+
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status">
-                        <option value="active" <%= course.status === 'active' ? 'selected' : '' %>>Active</option>
-                        <option value="inactive" <%= course.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
-                        <option value="cancelled" <%= course.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <option value="active" <%=course.status==='active' ? 'selected' :'' %>>Active</option>
+                        <option value="inactive" <%=course.status==='inactive' ? 'selected' :'' %>>Inactive</option>
+                        <option value="cancelled" <%=course.status==='cancelled' ? 'selected' :'' %>>Cancelled</option>
                     </select>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" id="btnUpdate" class="btn btn-primary">Update Course</button>
-                    <button type="button" id="backButton" class="btn btn-secondary">Back</button>
-                </div>
-            </form>
 
-            <div class="student-list-card">
-                <div class="student-list-header">
-                    <h3>Enrolled Students</h3>
+                <div class="form-group full-width">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="5"><%= course.description %></textarea>
                 </div>
-                <div class="enroll-form">
-                    <select id="enrollStudentSelect" class="form-control">
-                        <option value="">-- Select Student --</option>
-                        <% if (availableStudents && availableStudents.length > 0) { %>
-                            <% availableStudents.forEach(function(student) { %>
-                                <option value="<%= student.id %>"><%= student.name %></option>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" id="btnUpdate" class="btn btn-primary">
+                    Update Course
+                </button>
+
+                <button type="button" id="backButton" class="btn btn-secondary">
+                    Back
+                </button>
+            </div>
+        </form>
+
+        <div class="student-list-card">
+            <div class="student-list-header">
+                <h3>Enrolled Students</h3>
+            </div>
+            <div class="enroll-form">
+                <select id="enrollStudentSelect" class="form-control">
+                    <option value="">-- Select Student --</option>
+                    <% if (availableStudents && availableStudents.length> 0) { %>
+                        <% availableStudents.forEach(function(student) { %>
+                            <option value="<%= student.id %>">
+                                <%= student.name %>
+                            </option>
                             <% }); %>
-                        <% } %>
-                    </select>
-                    <button type="button" id="enrollBtn" class="btn btn-primary btn-sm">+ Enroll</button>
-                </div>
-                <% if (students && students.length > 0) { %>
-                    <ul class="student-list">
-                        <% students.forEach(function(student) { %>
-                            <li class="student-item">
-                                <a href="/students/<%= student.id %>">
-                                    <span class="student-name"><%= student.name %></span>
-                                </a>
-                                <span class="student-id"><%= student.phoneNumber %></span>
-                                <button class="btn btn-danger btn-sm unenroll-btn" data-student-id="<%= student.id %>">Remove</button>
-                            </li>
+                                <% } %>
+                </select>
+                <button type="button" id="enrollBtn" class="btn btn-primary btn-sm">+ Enroll</button>
+            </div>
+            <% if (students && students.length> 0) { %>
+                <ul class="student-list">
+                    <% students.forEach(function(student) { %>
+                        <li class="student-item">
+                            <a href="/students/<%= student.id %>">
+                                <span class="student-name">
+                                    <%= student.name %>
+                                </span>
+                            </a>
+                            <span class="student-id">
+                                <%= student.phoneNumber %>
+                            </span>
+                            <button class="btn btn-danger btn-sm unenroll-btn"
+                                data-student-id="<%= student.id %>">Remove</button>
+                        </li>
                         <% }); %>
-                    </ul>
+                </ul>
                 <% } else { %>
                     <p class="empty-state">No students enrolled yet.</p>
-                <% } %>
-            </div>
+                    <% } %>
         </div>
+    </div>
 
     <script>
-        document.getElementById('editForm').addEventListener('submit', function(e) {
+        document.getElementById('editForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             var id = document.getElementById('courseId').value;
@@ -113,23 +140,23 @@
                     status: status
                 })
             })
-            .then(function(res) {
-                if (res.ok) {
-                    window.location.href = '/courses';
-                } else {
-                    return res.json().then(function(data) { alert(data.error || 'Error updating course.'); });
-                }
-            })
-            .catch(function(err) { alert('Request failed: ' + err); });
+                .then(function (res) {
+                    if (res.ok) {
+                        window.location.href = '/courses';
+                    } else {
+                        return res.json().then(function (data) { alert(data.error || 'Error updating course.'); });
+                    }
+                })
+                .catch(function (err) { alert('Request failed: ' + err); });
         });
 
-        document.getElementById('backButton').addEventListener('click', function() {
+        document.getElementById('backButton').addEventListener('click', function () {
             window.location.href = '/courses';
         });
 
         var courseId = document.getElementById('courseId').value;
 
-        document.getElementById('enrollBtn').addEventListener('click', function() {
+        document.getElementById('enrollBtn').addEventListener('click', function () {
             var studentId = document.getElementById('enrollStudentSelect').value;
             if (!studentId) {
                 alert('Please select a student to enroll.');
@@ -140,33 +167,33 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ student_id: studentId })
             })
-            .then(function(res) {
-                if (res.ok) {
-                    window.location.reload();
-                } else {
-                    return res.json().then(function(data) { alert(data.error || 'Error enrolling student.'); });
-                }
-            })
-            .catch(function(err) { alert('Request failed: ' + err); });
+                .then(function (res) {
+                    if (res.ok) {
+                        window.location.reload();
+                    } else {
+                        return res.json().then(function (data) { alert(data.error || 'Error enrolling student.'); });
+                    }
+                })
+                .catch(function (err) { alert('Request failed: ' + err); });
         });
 
-        document.querySelectorAll('.unenroll-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
+        document.querySelectorAll('.unenroll-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
                 var studentId = this.getAttribute('data-student-id');
                 if (!confirm('Are you sure you want to unenroll this student?')) return;
                 fetch('/courses/' + courseId + '/unenroll/' + studentId, {
                     method: 'DELETE'
                 })
-                .then(function(res) {
-                    if (res.ok) {
-                        window.location.reload();
-                    } else {
-                        return res.json().then(function(data) { alert(data.error || 'Error unenrolling student.'); });
-                    }
-                })
-                .catch(function(err) { alert('Request failed: ' + err); });
+                    .then(function (res) {
+                        if (res.ok) {
+                            window.location.reload();
+                        } else {
+                            return res.json().then(function (data) { alert(data.error || 'Error unenrolling student.'); });
+                        }
+                    })
+                    .catch(function (err) { alert('Request failed: ' + err); });
             });
         });
     </script>
 
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>

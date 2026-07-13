@@ -1,68 +1,119 @@
 <%- include('partials/header') %>
 
-    <h1><%= title %></h1>
+    <h1>
+        <%= title %>
+    </h1>
 
-    <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
-        <a href="/<%= basePath %>/new" class="btn btn-primary" style="text-decoration:none;">+ Add <%= entityLabel %></a>
-        <input type="text" id="searchInput" placeholder="Search <%= entityLabel.toLowerCase() %>..." style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; min-width: 260px;">
+    <div
+        style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
+        <a href="/<%= basePath %>/new" class="btn btn-primary" style="text-decoration:none;">+ Add <%= entityLabel %>
+                </a>
+        <input type="text" id="searchInput" placeholder="Search <%= entityLabel.toLowerCase() %>..."
+            style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; min-width: 260px;">
     </div>
 
-    <% if (items && items.length > 0) { %>
+    <% if (items && items.length> 0) { %>
         <table id="dataTable" class="styled-table">
             <thead>
                 <tr>
                     <% columns.forEach(function(col) { %>
-                        <th><%= col.label %></th>
-                    <% }); %>
-                    <th>Actions</th>
+                        <th>
+                            <%= col.label %>
+                        </th>
+                        <% }); %>
+                            <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <% items.forEach(function(item) { %>
                     <tr>
                         <% columns.forEach(function(col) { %>
-                            <td><%= item[col.field] %></td>
-                        <% }); %>
-                        <td class="actions-cell">
-                            <a href="/<%= basePath %>/<%= item[idField] %>/edit" class="btn btn-secondary" style="text-decoration:none;">Edit</a>
-                            <button class="btn btn-danger delete-btn" data-id="<%= item[idField] %>">Delete</button>
-                        </td>
+                            <td>
+                                <%= item[col.field] %>
+                            </td>
+                            <% }); %>
+                                <td class="actions-cell">
+                                    <a href="/<%= basePath %>/<%= item[idField] %>/edit" class="btn btn-secondary"
+                                        style="text-decoration:none;">Edit</a>
+                                    <button class="btn btn-danger delete-btn"
+                                        data-id="<%= item[idField] %>">Delete</button>
+                                </td>
                     </tr>
-                <% }); %>
+                    <% }); %>
             </tbody>
         </table>
-    <% } else { %>
-        <p>No <%= entityLabel.toLowerCase() %>s found. Add one to get started.</p>
-    <% } %>
+        <% } else { %>
+            <p>No <%= entityLabel.toLowerCase() %>s found. Add one to get started.</p>
+            <% } %>
 
-    <script>
-        document.querySelectorAll('.delete-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var id = this.getAttribute('data-id');
-                if (confirm('Are you sure you want to delete this <%= entityLabel.toLowerCase() %>?')) {
-                    fetch('/<%= basePath %>/' + id, { method: 'DELETE' })
-                        .then(function(res) {
-                            if (res.ok) {
-                                window.location.reload();
-                            } else {
-                                return res.json().then(function(data) { alert(data.error || 'Error deleting <%= entityLabel.toLowerCase() %>.'); });
-                            }
-                        })
-                        .catch(function(err) { alert('Request failed: ' + err); });
-                }
-            });
-        });
+                <!-- SweetAlert2 -->
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        var searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                var query = this.value.trim().toLowerCase();
-                var rows = document.querySelectorAll('#dataTable tbody tr');
-                rows.forEach(function(row) {
-                    var text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(query) ? '' : 'none';
-                });
-            });
-        }
-    </script>
-<%- include('partials/footer') %>
+                <script>
+                    document.querySelectorAll('.delete-btn').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            var id = this.getAttribute('data-id');
+
+                            Swal.fire({
+                                title: 'Delete <%= entityLabel %>?',
+                                text: 'This action cannot be undone.',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#dc3545',
+                                cancelButtonColor: '#6c757d',
+                                confirmButtonText: 'Yes, Delete',
+                                cancelButtonText: 'Cancel'
+                            }).then(function (result) {
+                                if (result.isConfirmed) {
+                                    fetch('/<%= basePath %>/' + id, {
+                                        method: 'DELETE'
+                                    })
+                                        .then(function (res) {
+                                            if (res.ok) {
+                                                Swal.fire({
+                                                    title: 'Deleted!',
+                                                    text: '<%= entityLabel %> has been deleted.',
+                                                    icon: 'success',
+                                                    timer: 1500,
+                                                    showConfirmButton: false
+                                                }).then(function () {
+                                                    window.location.reload();
+                                                });
+                                            } else {
+                                                return res.json().then(function (data) {
+                                                    Swal.fire(
+                                                        'Error',
+                                                        data.error || 'Error deleting <%= entityLabel.toLowerCase() %>.',
+                                                        'error'
+                                                    );
+                                                });
+                                            }
+                                        })
+                                        .catch(function (err) {
+                                            Swal.fire(
+                                                'Request Failed',
+                                                err.toString(),
+                                                'error'
+                                            );
+                                        });
+                                }
+                            });
+                        });
+                    });
+
+                    var searchInput = document.getElementById('searchInput');
+
+                    if (searchInput) {
+                        searchInput.addEventListener('input', function () {
+                            var query = this.value.trim().toLowerCase();
+                            var rows = document.querySelectorAll('#dataTable tbody tr');
+
+                            rows.forEach(function (row) {
+                                var text = row.textContent.toLowerCase();
+                                row.style.display = text.includes(query) ? '' : 'none';
+                            });
+                        });
+                    }
+                </script>
+
+                <%- include('partials/footer') %>
