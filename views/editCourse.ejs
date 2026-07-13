@@ -1,5 +1,6 @@
 <%- include('partials/header', { wide: true }) %>
 
+
     <h1>
         <%= title %>
     </h1>
@@ -67,7 +68,7 @@
             </div>
         </form>
 
-        <div class="student-list-card">
+        <div class="student-list-card" style="margin-left: 25px;">
             <div class="student-list-header">
                 <h3>Enrolled Students</h3>
             </div>
@@ -88,11 +89,11 @@
                 <ul class="student-list">
                     <% students.forEach(function(student) { %>
                         <li class="student-item">
-                            <a href="/students/<%= student.id %>">
+                            <span href="/students/<%= student.id %>">
                                 <span class="student-name">
                                     <%= student.name %>
                                 </span>
-                            </a>
+                            </span>
                             <span class="student-id">
                                 <%= student.phoneNumber %>
                             </span>
