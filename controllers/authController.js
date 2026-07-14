@@ -68,11 +68,18 @@ exports.login = async (req, res) => {
                 id: user.id,
                 email: user.email
             },
-            "user_secret",
+            process.env.JWT_SECRET || "user_secret",
             {
                 expiresIn: "1d"
             }
         );
+
+        res.cookie('sms_token', token, {
+            httpOnly: true,
+            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000
+        });
 
         res.json({
             message: "Login successfully",
@@ -88,4 +95,9 @@ exports.login = async (req, res) => {
             error: error.message
         });
     }
+};
+
+exports.logout = (req, res) => {
+    res.clearCookie('sms_token');
+    res.status(204).end();
 };

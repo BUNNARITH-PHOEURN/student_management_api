@@ -6,8 +6,14 @@
     </h1>
 
     <div class="edit-layout">
-        <form id="editForm" class="form-card">
+        <form id="editForm" class="form-card course-form">
             <input type="hidden" id="courseId" value="<%= course.id %>">
+
+            <div class="course-form-heading">
+                <span class="section-kicker">Course details</span>
+                <h2>Course information</h2>
+                <p>Update the course information and save your changes when you are ready.</p>
+            </div>
 
             <div class="form-grid">
 
@@ -68,9 +74,13 @@
             </div>
         </form>
 
-        <div class="student-list-card" style="margin-left: 25px;">
+        <aside class="student-list-card course-enrollment-card">
             <div class="student-list-header">
-                <h3>Enrolled Students</h3>
+                <div>
+                    <span class="section-kicker">Enrollment</span>
+                    <h3>Enrolled Students</h3>
+                    <p>Manage the students assigned to this course.</p>
+                </div>
             </div>
             <div class="enroll-form">
                 <select id="enrollStudentSelect" class="form-control">
@@ -105,7 +115,7 @@
                 <% } else { %>
                     <p class="empty-state">No students enrolled yet.</p>
                     <% } %>
-        </div>
+        </aside>
     </div>
 
     <script>

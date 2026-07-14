@@ -4,15 +4,15 @@
         <%= title %>
     </h1>
 
-    <div
-        style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
-        <a href="/<%= basePath %>/new" class="btn btn-primary" style="text-decoration:none;">+ Add <%= entityLabel %>
+    <div class="toolbar">
+        <a href="/<%= basePath %>/new" class="btn btn-primary">+ Add <%= entityLabel %>
         </a>
         <input type="text" id="searchInput" placeholder="Search <%= entityLabel.toLowerCase() %>..."
-            style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; min-width: 260px;">
+            class="search-input" aria-label="Search <%= entityLabel.toLowerCase() %>">
     </div>
 
     <% if (items && items.length> 0) { %>
+        <div class="table-wrapper">
         <table id="dataTable" class="styled-table">
             <thead>
                 <tr>
@@ -42,6 +42,7 @@
                     <% }); %>
             </tbody>
         </table>
+        </div>
         <% } else { %>
             <p>No <%= entityLabel.toLowerCase() %>s found. Add one to get started.</p>
             <% } %>

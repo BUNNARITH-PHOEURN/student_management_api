@@ -7,23 +7,25 @@
   const btnLogin = qs('btn-login');
   const btnNew = qs('btn-new-course');
 
-  // Determine auth state by token presence (client-side check)
-  const token = (function(){ try{ return localStorage.getItem('sms_token') || localStorage.getItem('token') || localStorage.getItem('auth_token'); }catch(e){ return null; } })();
+  // Highlight the section that owns the current page, including add/edit/detail pages.
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('.sidebar-nav .nav-link[data-path]').forEach(link => {
+    const sectionPath = link.dataset.path;
+    const isCurrentSection = currentPath === sectionPath || currentPath.startsWith(sectionPath + '/');
+    link.classList.toggle('active', isCurrentSection);
+    if (isCurrentSection) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
 
-  if(token){
-    if(btnLogout) btnLogout.style.display = 'inline-block';
-    if(btnLogin) btnLogin.style.display = 'none';
-    if(btnNew) btnNew.style.display = 'inline-block';
-  } else {
-    if(btnLogout) btnLogout.style.display = 'none';
-    if(btnLogin) btnLogin.style.display = 'inline-block';
-    if(btnNew) btnNew.style.display = 'none';
-  }
+  // This script is only loaded on protected pages, which the server has already authenticated.
+  if(btnLogout) btnLogout.style.display = 'inline-flex';
+  if(btnLogin) btnLogin.style.display = 'none';
+  if(btnNew) btnNew.style.display = 'inline-flex';
 
   if(btnLogout){
     btnLogout.addEventListener('click', function(){
-      try{ localStorage.removeItem('sms_token'); localStorage.removeItem('token'); localStorage.removeItem('auth_token'); }catch(e){}
-      window.location.href = '/login';
+      fetch('/auth/logout', { method: 'POST' })
+        .finally(function(){ window.location.href = '/login'; });
     });
   }
 

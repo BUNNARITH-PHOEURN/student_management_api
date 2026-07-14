@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var courseRouter = require('./routes/course');
 var authRoutes = require("./routes/authRoutes");
 var authViewRoutes = require("./routes/authViewRoutes");
+var requireAuth = require('./middleware/requireAuth');
 
 
 var studentRouter = require('./routes/student');
@@ -26,13 +27,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Public routes: sign in and registration only.
 app.use("/auth", authRoutes);
 app.use("/", authViewRoutes);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/courses', courseRouter);
-app.use('/students', studentRouter);
+// Every application route is protected individually. This prevents direct URL
+// access such as /courses or /students before the user logs in.
+app.use('/', requireAuth, indexRouter);
+app.use('/users', requireAuth, usersRouter);
+app.use('/courses', requireAuth, courseRouter);
+app.use('/students', requireAuth, studentRouter);
+
+// Do not reveal any other non-public application path to unauthenticated users.
+app.use(requireAuth);
 
 
 // catch 404 and forward to error handler

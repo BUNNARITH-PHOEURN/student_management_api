@@ -33,10 +33,10 @@
         <h1 id="auth-title">Student Management System</h1>
         <p class="subtitle">Manage students, courses, and enrollments easily.</p>
         <ul class="features" aria-hidden="false">
-          <li>✔ Secure Login</li>
-          <li>✔ Student Records</li>
-          <li>✔ Course Management</li>
-          <li>✔ Fast & Simple</li>
+          <li>Secure login</li>
+          <li>Student records</li>
+          <li>Course management</li>
+          <li>Fast and simple</li>
         </ul>
       </section>
 
@@ -135,59 +135,4 @@
 
     <script src="/javascripts/auth.js" defer></script>
   </body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-
-<script>
-
-document
-.getElementById("loginForm")
-.addEventListener("submit", async function(e){
-
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    const response = await fetch("/auth/login",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            email,
-            password
-        })
-
-    });
-
-    const data = await response.json();
-
-    if(response.ok){
-
-        alert("Login Success");
-
-        localStorage.setItem("token",data.token);
-
-        window.location="/courses";
-
-    }else{
-
-        alert(data.message);
-
-    }
-
-});
-
-</script>
-
-</body>
 </html>

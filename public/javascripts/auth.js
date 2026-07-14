@@ -99,8 +99,6 @@
         showAlert('error', body.message || body.error || 'Login failed');
         return;
       }
-      // success
-      if(body.token) localStorage.setItem('sms_token', body.token);
       showAlert('success', body.message || 'Login successful');
       // short delay then redirect to courses view
       setTimeout(()=>{ window.location.href = '/courses'; }, 800);
